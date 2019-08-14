@@ -1,0 +1,17 @@
+{
+  "name": "deploy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "archiver": "^3.1.1",
+    "dotenv": "^8.0.0",
+    "fs-extra": "^8.1.0",
+    "isomorphic-git": "^0.58.2",
+    "npm": "^6.10.3",
+    "openwhisk": "^3.19.0",
+    "tmp-promise": "^2.0.2"
+  }
+}

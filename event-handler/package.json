@@ -1,0 +1,14 @@
+{
+  "name": "event-handler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "jsrsasign": "^8.0.12",
+    "node-fetch": "^2.6.0",
+    "openwhisk": "^3.19.0"
+  }
+}
