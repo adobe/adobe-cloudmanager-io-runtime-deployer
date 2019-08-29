@@ -54,8 +54,9 @@ TECHNICAL_ACCOUNT_ID=the technical account email for the integration
 ORGANIZATION_ID=the org id for the integration
 CLIENT_SECRET=the client secret for the integration
 PROGRAM_ID=the program id
-PRIVATE_KEY=the private key of the integration, no newlines
 ```
+
+4. Put your `private.key` file in `event-handler` (i.e. `event-handler/private.key`)
 
 ## Building
 

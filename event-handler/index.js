@@ -11,41 +11,25 @@ governing permissions and limitations under the License.
 */
 
 const fetch = require('node-fetch')
-const jsrsasign = require('jsrsasign')
 const openwhisk = require('openwhisk')
+const auth = require('@adobe/jwt-auth')
+const fs = require('fs')
 
 require('dotenv').config()
 
 async function getAccessToken () {
-  const EXPIRATION = 60 * 60 // 1 hour
-
-  const header = {
-    alg: 'RS256',
-    typ: 'JWT'
+  const options = {
+    clientId: process.env.API_KEY,
+    clientSecret: process.env.CLIENT_SECRET,
+    technicalAccountId: process.env.TECHNICAL_ACCOUNT_ID,
+    orgId: process.env.ORGANIZATION_ID,
+    metaScopes: ['ent_cloudmgr_sdk']
   }
+  options.privateKey = fs.readFileSync('private.key')
 
-  const payload = {
-    exp: Math.round(new Date().getTime() / 1000) + EXPIRATION,
-    iss: process.env.ORGANIZATION_ID,
-    sub: process.env.TECHNICAL_ACCOUNT_ID,
-    aud: `https://ims-na1.adobelogin.com/c/${process.env.API_KEY}`,
-    'https://ims-na1.adobelogin.com/s/ent_cloudmgr_sdk': true
-  }
+  const { access_token } = await auth(options);
 
-  const jwtToken = jsrsasign.jws.JWS.sign('RS256', JSON.stringify(header), JSON.stringify(payload), process.env.PRIVATE_KEY)
-
-  const response = await fetch('https://ims-na1.adobelogin.com/ims/exchange/jwt', {
-    method: 'POST',
-    body: new URLSearchParams({
-      client_id: process.env.API_KEY,
-      client_secret: process.env.CLIENT_SECRET,
-      jwt_token: jwtToken
-    })
-  })
-
-  const json = await response.json()
-
-  return json['access_token']
+  return access_token
 }
 
 async function makeApiCallWithoutResponseBody (accessToken, url, method, body) {
